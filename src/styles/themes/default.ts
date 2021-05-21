@@ -11,8 +11,8 @@ const theme = {
     },
   },
   fonts: {
-    body: 'Ubuntu, Helvetica, Arial, sans-serif',
-    heading: 'Ubuntu, Helvetica, Arial, sans-serif',
+    body: 'Titillium Web, Helvetica, Arial, sans-serif',
+    heading: 'Titillium Web, Helvetica, Arial, sans-serif',
     mono: 'monospace',
   },
   fontWeights: {
