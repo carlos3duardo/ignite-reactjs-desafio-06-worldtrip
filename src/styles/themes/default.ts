@@ -3,13 +3,6 @@
 import { extendTheme } from '@chakra-ui/react';
 
 const theme = {
-  styles: {
-    global: {
-      body: {
-        backgroundColor: 'gray.50',
-      },
-    },
-  },
   fonts: {
     body: 'Titillium Web, Helvetica, Arial, sans-serif',
     heading: 'Titillium Web, Helvetica, Arial, sans-serif',
