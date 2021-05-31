@@ -1,7 +1,15 @@
 import { Box, chakra, Flex, Heading, Text } from '@chakra-ui/react';
 import Image from 'next/image';
 
-export default function WelcomeBanner(): JSX.Element {
+interface BannerProps {
+  title: string;
+  subtitle: string;
+}
+
+export default function WelcomeBanner({
+  title,
+  subtitle,
+}: BannerProps): JSX.Element {
   return (
     <Box
       height={360}
@@ -20,15 +28,11 @@ export default function WelcomeBanner(): JSX.Element {
         textColor="gray.100"
         position="relative"
       >
-        <Box>
+        <Box maxW={600}>
           <Heading as="h1" fontSize="5xl">
-            5 Continentes,
-            <br />
-            infinitas possibilidades
+            {title || 'Title'}
           </Heading>
-          <Text fontSize="2xl">
-            Chegou a hora de tirar do papel a viagem que você sempre sonhou.
-          </Text>
+          <Text fontSize="2xl">{subtitle || 'Subtitle'}</Text>
         </Box>
         <chakra.figure
           transform="rotate(3deg);"
