@@ -10,11 +10,20 @@ interface BannerProps {
   title: string;
   subtitle: string;
 }
+
+interface InterestProps {
+  id: string;
+  name: string;
+  icon: {
+    url: string;
+  };
+}
 interface HomeProps {
   banner: BannerProps;
+  interests: InterestProps[];
 }
 
-export default function Home({ banner }: HomeProps): JSX.Element {
+export default function Home({ banner, interests }: HomeProps): JSX.Element {
   return (
     <>
       <Head>
@@ -22,12 +31,14 @@ export default function Home({ banner }: HomeProps): JSX.Element {
       </Head>
       <Header />
       <WelcomeBanner title={banner.title} subtitle={banner.subtitle} />
-      <Interests />
+      <Interests interests={interests} />
     </>
   );
 }
 
 export const getStaticProps: GetStaticProps = async () => {
+  // banner content
+
   const bannerTextResponse = await request(`{ welcome { id title subtitle }}`);
 
   const banner = {
@@ -35,9 +46,20 @@ export const getStaticProps: GetStaticProps = async () => {
     subtitle: bannerTextResponse.welcome.subtitle,
   };
 
-  console.log(bannerTextResponse);
+  // interest items
+
+  const interestResponse = await request(`{
+    allInterests(orderBy: _createdAt_ASC) {
+      id
+      name
+      icon {
+        url
+      }
+    }
+  }
+  `);
 
   return {
-    props: { banner },
+    props: { banner, interests: interestResponse.allInterests },
   };
 };
