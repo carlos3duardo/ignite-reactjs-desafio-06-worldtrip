@@ -18,3 +18,11 @@ export async function request(query, { variables } = {}) {
 
   return json.data;
 }
+
+
+export async function getAllContinentsSlug()
+{
+  const data = await request(`{ allContinents { slug } }`);
+
+  return data?.allContinents;
+}

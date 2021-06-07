@@ -30,7 +30,7 @@ interface ContinentProps {
   id: string;
   name: string;
   slug: string;
-  description: string;
+  headline: string;
   banner: {
     url: string;
   };
@@ -115,7 +115,7 @@ export const getStaticProps: GetStaticProps = async () => {
   // continents
 
   const continentList = await request(
-    `{ allContinents { id slug name description banner { url } } }`,
+    `{ allContinents { id slug name headline banner { url } } }`,
   );
 
   return {

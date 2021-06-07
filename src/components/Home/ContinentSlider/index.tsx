@@ -9,7 +9,7 @@ interface ContinentProps {
   id: string;
   slug: string;
   name: string;
-  description: string;
+  headline: string;
   banner: {
     url: string;
   };
@@ -42,7 +42,7 @@ export default function ContinentSlider({
                 right="0"
                 bottom="0"
                 left="0"
-                backgroundColor="rgba(0, 0, 0, 0.3)"
+                backgroundColor="rgba(0, 0, 0, 0.42)"
                 display="flex"
                 flexDir="column"
                 alignItems="center"
@@ -59,7 +59,7 @@ export default function ContinentSlider({
                       {continent.name}
                     </Heading>
                     <Text color="#ffffff" textAlign="center" fontSize="xl">
-                      {continent.description}
+                      {continent.headline}
                     </Text>
                   </a>
                 </Link>

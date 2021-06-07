@@ -1,10 +1,21 @@
-import { Flex, Grid, GridItem, useColorMode } from '@chakra-ui/react';
+import { useRouter } from 'next/router';
 import Image from 'next/image';
+import {
+  Flex,
+  Grid,
+  GridItem,
+  IconButton,
+  useColorMode,
+  Icon,
+} from '@chakra-ui/react';
+import { FiChevronLeft } from 'react-icons/fi';
 
+import Link from 'next/link';
 import SwitchColorMode from '../SwitchColorMode';
 
 export default function Header(): JSX.Element {
   const { colorMode } = useColorMode();
+  const router = useRouter();
 
   return (
     <Flex as="header">
@@ -16,7 +27,15 @@ export default function Header(): JSX.Element {
         margin="0 auto"
       >
         <GridItem alignSelf="center" justifySelf="left">
-          &nbsp;
+          {router.pathname !== '/' && (
+            <Link href="/">
+              <IconButton
+                icon={<Icon as={FiChevronLeft} />}
+                variant="ghost"
+                aria-label="Back to Home"
+              />
+            </Link>
+          )}
         </GridItem>
         <GridItem alignSelf="center" justifySelf="center">
           <Image
