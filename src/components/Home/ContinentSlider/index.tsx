@@ -1,10 +1,14 @@
 import Link from 'next/link';
 import { Box, chakra, Heading, Text } from '@chakra-ui/react';
 import { Swiper, SwiperSlide } from 'swiper/react';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
+
 import 'swiper/swiper-bundle.css';
 
 import styles from './ContinentSlider.module.scss';
 
+// install Swiper modules
+SwiperCore.use([Navigation, Pagination, Autoplay]);
 interface ContinentProps {
   id: string;
   slug: string;

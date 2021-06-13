@@ -1,7 +1,6 @@
 import { Box, Heading } from '@chakra-ui/react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
 
 import Header from '../components/Header';
 import Interests from '../components/Home/Interests';
@@ -9,9 +8,7 @@ import WelcomeBanner from '../components/Home/WelcomeBanner';
 
 import { request } from '../services/datocms.js';
 import ContinentSlider from '../components/Home/ContinentSlider';
-
-// install Swiper modules
-SwiperCore.use([Navigation, Pagination, Autoplay]);
+import Footer from '../components/Footer';
 
 interface BannerProps {
   title: string;
@@ -80,18 +77,7 @@ export default function Home({
         <ContinentSlider continents={continents} />
       </Box>
 
-      <Box
-        as="footer"
-        mt={16}
-        p={4}
-        borderTopWidth="1px"
-        borderTopStyle="solid"
-        borderTopColor="gray.200"
-      >
-        <Box width="100%" maxWidth="1120px" margin="0 auto">
-          rodapé
-        </Box>
-      </Box>
+      <Footer />
     </>
   );
 }
