@@ -52,13 +52,13 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
   return (
     <>
       <Head>
-        <title>{continent.name} | worldtrip</title>
+        <title>{continent?.name} | worldtrip</title>
       </Head>
 
       <Header />
 
       <chakra.figure
-        backgroundImage={continent.banner.url}
+        backgroundImage={continent?.banner.url}
         backgroundRepeat="no-repeat"
         backgroundPosition="center center"
         backgroundSize="cover"
@@ -102,7 +102,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
         <GridItem colSpan={3}>
           <Box
             dangerouslySetInnerHTML={{
-              __html: continent.description.replace(/\n/g, '<br/>'),
+              __html: continent?.description.replace(/\n/g, '<br/>'),
             }}
           />
         </GridItem>
@@ -110,7 +110,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             <GridItem>
               <Heading color="primary" textAlign="center">
-                {continent.countries}
+                {continent?.countries}
               </Heading>
               <Text textAlign="center" fontWeight="bold" color="gray.500">
                 coutries
@@ -118,7 +118,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
             </GridItem>
             <GridItem>
               <Heading color="primary" textAlign="center">
-                {continent.languages}
+                {continent?.languages}
               </Heading>
               <Text textAlign="center" fontWeight="bold" color="gray.500">
                 languages
@@ -126,7 +126,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
             </GridItem>
             <GridItem>
               <Heading color="primary" textAlign="center">
-                {cities.length}
+                {cities?.length}
               </Heading>
               <Text textAlign="center" fontWeight="bold" color="gray.500">
                 cities +100
@@ -147,7 +147,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
             templateColumns="repeat(4, 1fr)"
             gap={10}
           >
-            {cities.map(city => (
+            {cities?.map(city => (
               <GridItem
                 borderWidth="1px"
                 borderStyle="solid"
@@ -161,7 +161,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
                     width="100%"
                     height="160px"
                     objectFit="cover"
-                    alt={city.name}
+                    alt={city?.name}
                   />
                 </chakra.figure>
                 <Flex
@@ -172,13 +172,13 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
                 >
                   <Box>
                     <Text fontSize="normal" fontWeight="bold">
-                      {city.name}
+                      {city?.name}
                     </Text>
                     <Text fontSize="small" fontWeight="bold" color="gray.500">
-                      {city.country.name}
+                      {city?.country.name}
                     </Text>
                     <Text fontSize="small" color="gray.500">
-                      Arrivals: {city.arrivals}M
+                      Arrivals: {city?.arrivals}M
                     </Text>
                   </Box>
                   <Box>
@@ -191,10 +191,10 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
                     >
                       <chakra.img
                         display="block"
-                        src={city.country.flag.url}
+                        src={city?.country.flag.url}
                         width="30px"
                         height="30px"
-                        alt={city.country.name}
+                        alt={city?.country.name}
                         objectFit="cover"
                       />
                     </chakra.figure>
