@@ -49,7 +49,6 @@ interface PageProps {
 }
 
 export default function Home({ continent, cities }: PageProps): JSX.Element {
-  console.log(cities);
   return (
     <>
       <Head>
