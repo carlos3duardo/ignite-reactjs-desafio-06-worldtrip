@@ -29,6 +29,7 @@
     "react-hooks/exhaustive-deps": "warn",
     "react/jsx-props-no-spreading": "off",
     "prettier/prettier": "error",
+    "radix": "off",
     "jsx-a11y/anchor-is-valid": [
       "error",
       {
