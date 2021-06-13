@@ -9,10 +9,11 @@ import {
 } from '@chakra-ui/react';
 import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
+import ContinentNavigation from '../../components/ContinentNavigation';
 
 import Header from '../../components/Header';
 
-import { request, getAllContinentsSlug } from '../../services/datocms.js';
+import { request, getAllContinents } from '../../services/datocms.js';
 
 interface ContinentProps {
   id: string;
@@ -46,16 +47,19 @@ interface CityProps {
 interface PageProps {
   continent: ContinentProps;
   cities: CityProps[];
+  continents: ContinentProps[];
 }
 
-export default function Home({ continent, cities }: PageProps): JSX.Element {
+export default function Home({
+  continent,
+  cities,
+  continents,
+}: PageProps): JSX.Element {
   return (
     <>
       <Head>
         <title>{continent?.name} | worldtrip</title>
       </Head>
-
-      <Header />
 
       <chakra.figure
         backgroundImage={continent?.banner.url}
@@ -95,7 +99,7 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
         width="100%"
         maxWidth="1120px"
         margin="0 auto"
-        padding="40px 0"
+        padding="20px 0"
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
@@ -143,12 +147,13 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
             width="100%"
             maxWidth="1120px"
             margin="0 auto"
-            padding="40px 0"
+            padding="20px 0"
             templateColumns="repeat(4, 1fr)"
             gap={10}
           >
             {cities?.map(city => (
               <GridItem
+                key={city.id}
                 borderWidth="1px"
                 borderStyle="solid"
                 borderColor="orange.300"
@@ -171,7 +176,11 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
                   padding="20px"
                 >
                   <Box>
-                    <Text fontSize="normal" fontWeight="bold">
+                    <Text
+                      fontSize="normal"
+                      fontWeight="bold"
+                      textTransform="lowercase"
+                    >
                       {city?.name}
                     </Text>
                     <Text fontSize="small" fontWeight="bold" color="gray.500">
@@ -206,28 +215,17 @@ export default function Home({ continent, cities }: PageProps): JSX.Element {
         </GridItem>
       </Grid>
 
-      <Box
-        as="footer"
-        mt={16}
-        p={4}
-        borderTopWidth="1px"
-        borderTopStyle="solid"
-        borderTopColor="gray.200"
-      >
-        <Box width="100%" maxWidth="1120px" margin="0 auto">
-          rodapé
-        </Box>
-      </Box>
+      <ContinentNavigation continents={continents} excludes={[continent?.id]} />
     </>
   );
 }
 
 export const getStaticPaths: GetStaticPaths = async () => {
-  const continents = await getAllContinentsSlug();
+  const continents = await getAllContinents();
 
   return {
     paths: continents?.map(continent => `/continent/${continent.slug}`) || [],
-    fallback: true,
+    fallback: 'blocking',
   };
 };
 
@@ -250,7 +248,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   const { continent } = continentResponse;
 
   const countriesResponse = await request(
-    `{allCountries(filter: {continent: {eq: ${continent.id}}}) { id }}`,
+    `{allCountries(filter: {continent: {anyIn: ${continent.id}}}) { id }}`,
   );
 
   const countriesId = countriesResponse.allCountries.map(countrie =>
@@ -258,7 +256,7 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
   );
 
   const citiesResponse = await request(`{
-    allCities(filter: {country: {in: [${countriesId}]}}, orderBy: arrivals_DESC) {
+    allCities(first: 100, filter: {country: {in: [${countriesId}]}}, orderBy: arrivals_DESC) {
       id
       name
       arrivals
@@ -277,10 +275,14 @@ export const getStaticProps: GetStaticProps = async ({ params }) => {
 
   const cities = citiesResponse.allCities;
 
+  const continents = await getAllContinents();
+
   return {
     props: {
       continent,
       cities,
+      continents,
     },
+    revalidate: 60 * 60 * 12, // 60 sec * 60 min * 12 hours
   };
 };

@@ -26,3 +26,18 @@ export async function getAllContinentsSlug()
 
   return data?.allContinents;
 }
+
+export async function getAllContinents()
+{
+  const data = await request(`{ allContinents(orderBy: name_ASC) {
+    id
+    name
+    slug
+    banner {
+      url
+    }
+  }}`);
+
+  return data?.allContinents;
+}
+
