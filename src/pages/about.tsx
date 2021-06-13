@@ -1,18 +1,8 @@
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
-import {
-  chakra,
-  Box,
-  Heading,
-  Grid,
-  GridItem,
-  Icon,
-  Text,
-} from '@chakra-ui/react';
+import { chakra, Box, Heading, Grid, GridItem, Icon } from '@chakra-ui/react';
 import ReactMarkdown from 'react-markdown';
 import { SiGithub } from 'react-icons/si';
-import Header from '../components/Header';
-import Footer from '../components/Footer';
 
 import { request } from '../services/datocms.js';
 
@@ -34,7 +24,6 @@ export default function About({
       <Head>
         <title>about | worldtrip</title>
       </Head>
-      <Header />
       <chakra.figure
         backgroundImage="img/about-banner.jpg"
         backgroundRepeat="no-repeat"
@@ -97,8 +86,6 @@ export default function About({
           )}
         </GridItem>
       </Grid>
-
-      <Footer />
     </>
   );
 }

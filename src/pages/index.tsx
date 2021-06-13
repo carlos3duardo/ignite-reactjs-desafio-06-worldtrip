@@ -2,13 +2,11 @@ import { Box, Heading } from '@chakra-ui/react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
-import Header from '../components/Header';
 import Interests from '../components/Home/Interests';
 import WelcomeBanner from '../components/Home/WelcomeBanner';
 
 import { request } from '../services/datocms.js';
 import ContinentSlider from '../components/Home/ContinentSlider';
-import Footer from '../components/Footer';
 
 interface BannerProps {
   title: string;
@@ -48,7 +46,6 @@ export default function Home({
       <Head>
         <title>worldtrip</title>
       </Head>
-      <Header />
       <WelcomeBanner title={banner.title} subtitle={banner.subtitle} />
       <Interests interests={interests} />
       <Box mt={20} pt={14}>
@@ -76,8 +73,6 @@ export default function Home({
 
         <ContinentSlider continents={continents} />
       </Box>
-
-      <Footer />
     </>
   );
 }
