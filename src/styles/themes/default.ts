@@ -4,15 +4,15 @@ import { extendTheme } from '@chakra-ui/react';
 
 const theme = {
   styles: {
-    global: {
+    global: props => ({
       body: {
-        backgroundColor: 'gray.50',
+        background: props.colorMode === 'light' ? 'white' : 'gray.800',
       },
-    },
+    }),
   },
   fonts: {
-    body: 'Ubuntu, Helvetica, Arial, sans-serif',
-    heading: 'Ubuntu, Helvetica, Arial, sans-serif',
+    body: 'Titillium Web, Helvetica, Arial, sans-serif',
+    heading: 'Titillium Web, Helvetica, Arial, sans-serif',
     mono: 'monospace',
   },
   fontWeights: {
@@ -20,6 +20,9 @@ const theme = {
     regular: 400,
     semibold: 500,
     bold: 700,
+  },
+  colors: {
+    primary: '#ffba08',
   },
 };
 

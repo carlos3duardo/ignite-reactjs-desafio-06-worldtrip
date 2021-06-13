@@ -1,239 +1,128 @@
-import Image from 'next/image';
-import {
-  Box,
-  chakra,
-  Code,
-  Flex,
-  Grid,
-  GridItem,
-  Heading,
-  Icon,
-  IconButton,
-  Text,
-  Tooltip,
-  useColorMode,
-} from '@chakra-ui/react';
-import { BsArrowRightShort } from 'react-icons/bs';
-import { FiMoon, FiSun } from 'react-icons/fi';
+import { Box, Heading } from '@chakra-ui/react';
+import { GetStaticProps } from 'next';
 import Head from 'next/head';
+import SwiperCore, { Navigation, Pagination, Autoplay } from 'swiper/core';
 
-interface HomeCardProps {
+import Header from '../components/Header';
+import Interests from '../components/Home/Interests';
+import WelcomeBanner from '../components/Home/WelcomeBanner';
+
+import { request } from '../services/datocms.js';
+import ContinentSlider from '../components/Home/ContinentSlider';
+
+// install Swiper modules
+SwiperCore.use([Navigation, Pagination, Autoplay]);
+
+interface BannerProps {
   title: string;
-  description: string;
-  url: string;
+  subtitle: string;
 }
 
-function SwitchColorModeButton(): JSX.Element {
-  const { colorMode, toggleColorMode } = useColorMode();
-
-  return (
-    <Tooltip
-      hasArrow
-      shouldWrapChildren
-      label={colorMode === 'light' ? 'Dark mode' : 'Light mode'}
-      placement="left"
-    >
-      <IconButton
-        onClick={toggleColorMode}
-        aria-label={colorMode === 'light' ? 'Dark mode' : 'Light mode'}
-        icon={colorMode === 'light' ? <FiMoon /> : <FiSun />}
-        variant="ghost"
-      />
-    </Tooltip>
-  );
+interface InterestProps {
+  id: string;
+  name: string;
+  icon: {
+    url: string;
+  };
 }
 
-function HomeCard({ title, description, url }: HomeCardProps) {
-  const { colorMode } = useColorMode();
-
-  return (
-    <GridItem
-      bgColor={colorMode === 'light' ? 'white' : 'gray.800'}
-      as="a"
-      display="block"
-      href={url}
-      target="_blank"
-      borderWidth="1px"
-      borderStyle="solid"
-      borderColor={colorMode === 'light' ? 'gray.300' : 'gray.600'}
-      borderRadius={4}
-      padding={6}
-      transition="all 0.2s ease"
-      _hover={{
-        borderColor: 'blue.400',
-        color: 'blue.400',
-      }}
-    >
-      <Heading
-        as="h2"
-        fontSize="xl"
-        margin="0 0 1rem 0"
-        display="flex"
-        flexDirection="row"
-        alignItems="center"
-      >
-        <Text as="span" marginRight={2}>
-          {title}
-        </Text>
-        <Icon as={BsArrowRightShort} />
-      </Heading>
-      <Text fontSize="lg" lineHeight="base">
-        {description}
-      </Text>
-    </GridItem>
-  );
+interface ContinentProps {
+  id: string;
+  name: string;
+  slug: string;
+  headline: string;
+  banner: {
+    url: string;
+  };
+}
+interface HomeProps {
+  banner: BannerProps;
+  interests: InterestProps[];
+  continents: ContinentProps[];
 }
 
-export default function Home(): JSX.Element {
-  const { colorMode } = useColorMode();
-
+export default function Home({
+  banner,
+  interests,
+  continents,
+}: HomeProps): JSX.Element {
   return (
     <>
       <Head>
-        <title>Create Next App</title>
+        <title>worldtrip</title>
       </Head>
-      <Flex
-        direction="column"
-        width="100%"
-        height="100%"
-        minHeight="100vh"
-        bgColor={colorMode === 'light' ? 'gray.50' : 'gray.700'}
-        position="relative"
+      <Header />
+      <WelcomeBanner title={banner.title} subtitle={banner.subtitle} />
+      <Interests interests={interests} />
+      <Box mt={20} pt={14}>
+        <Heading
+          as="h4"
+          textAlign="center"
+          fontSize="3xl"
+          position="relative"
+          mb={14}
+          _before={{
+            position: 'absolute',
+            content: '""',
+            width: '90px',
+            height: '2px',
+            backgroundColor: '#000',
+            top: '-50px',
+            left: '50%',
+            marginLeft: '-45px',
+          }}
+        >
+          Let's go?
+          <br />
+          Choose a continent.
+        </Heading>
+
+        <ContinentSlider continents={continents} />
+      </Box>
+
+      <Box
+        as="footer"
+        mt={16}
+        p={4}
+        borderTopWidth="1px"
+        borderTopStyle="solid"
+        borderTopColor="gray.200"
       >
-        <Box position="absolute" top="1rem" right="1rem">
-          <SwitchColorModeButton />
+        <Box width="100%" maxWidth="1120px" margin="0 auto">
+          rodapé
         </Box>
-        <Flex
-          className="1"
-          direction="column"
-          flex="1"
-          alignItems="center"
-          justifyContent="center"
-          width="100%"
-          maxW="820px"
-          margin="0 auto"
-          p={{ base: '1rem', md: '0' }}
-        >
-          <Flex
-            as="head"
-            direction={{ base: 'column-reverse', md: 'row' }}
-            align="center"
-            justify="space-between"
-            w="100%"
-            p="2rem"
-          >
-            <Box>
-              <Heading
-                as="h1"
-                fontSize="4xl"
-                textAlign={{ base: 'center', md: 'left' }}
-              >
-                Welcome to{' '}
-                <chakra.a
-                  href="http://www.nextjs.org"
-                  target="_blank"
-                  rel="noreferrer"
-                  color="blue.400"
-                  _hover={{ color: 'blue.600' }}
-                >
-                  Next.js!
-                </chakra.a>
-              </Heading>
-              <Heading
-                as="h3"
-                fontSize="lg"
-                marginTop="0.5rem"
-                textAlign={{ base: 'center', md: 'left' }}
-              >
-                With Typescript, ESLint, Prettier, Chakra UI and React Icons.
-              </Heading>
-              <Text
-                fontSize="xl"
-                marginTop="1rem"
-                textAlign={{ base: 'center', md: 'left' }}
-              >
-                Get started by editing{' '}
-                <Code
-                  bgColor={colorMode === 'light' ? 'gray.200' : 'gray.800'}
-                  fontSize="large"
-                >
-                  pages/index.js
-                </Code>
-              </Text>
-            </Box>
-
-            <Box>
-              <Image
-                src="/img/man-with-laptop.svg"
-                alt="Man with laptop"
-                width={209}
-                height={160}
-              />
-            </Box>
-          </Flex>
-
-          <Grid
-            as="main"
-            marginTop="4rem"
-            templateColumns={{ base: '1fr', md: 'repeat(2, 1fr)' }}
-            gap={{ base: 4, md: 8 }}
-          >
-            <HomeCard
-              title="Documentation"
-              description="Find in-depth information about Next.js features and API."
-              url="https://nextjs.org/docs"
-            />
-            <HomeCard
-              title="Learn"
-              description="Learn about Next.js in an interactive course with quizzes!"
-              url="https://nextjs.org/learn"
-            />
-            <HomeCard
-              title="Examples"
-              description="Discover and deploy boilerplate example Next.js projects."
-              url="https://github.com/vercel/next.js/tree/master/examples"
-            />
-            <HomeCard
-              title="Deploy"
-              description="Instantly deploy your Next.js site to a public URL with Vercel."
-              url="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            />
-          </Grid>
-        </Flex>
-
-        <Flex
-          as="footer"
-          borderWidth="1px"
-          borderStyle="solid"
-          borderColor={colorMode === 'light' ? 'gray.200' : 'gray.700'}
-          p="2rem"
-        >
-          <Flex
-            as="a"
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-            width="100%"
-            direction="row"
-            alignItems="center"
-            justifyContent="center"
-          >
-            <Box lineHeight="24px">Powered by</Box>
-            <Box ml="0.5rem" h={4}>
-              <Image
-                src={
-                  colorMode === 'light'
-                    ? '/img/vercel.svg'
-                    : '/img/vercel-darkmode.svg'
-                }
-                alt="Vercel Logo"
-                width={72}
-                height={16}
-              />
-            </Box>
-          </Flex>
-        </Flex>
-      </Flex>
+      </Box>
     </>
   );
 }
+
+export const getStaticProps: GetStaticProps = async () => {
+  // banner content
+
+  const bannerTextResponse = await request(`{ welcome { id title subtitle }}`);
+
+  const banner = {
+    title: bannerTextResponse.welcome.title,
+    subtitle: bannerTextResponse.welcome.subtitle,
+  };
+
+  // interest items
+
+  const interestList = await request(
+    `{ allInterests(orderBy: _createdAt_ASC) { id name icon { url } } } `,
+  );
+
+  // continents
+
+  const continentList = await request(
+    `{ allContinents { id slug name headline banner { url } } }`,
+  );
+
+  return {
+    props: {
+      banner,
+      interests: interestList.allInterests,
+      continents: continentList.allContinents,
+    },
+  };
+};
