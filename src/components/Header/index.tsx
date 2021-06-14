@@ -20,11 +20,12 @@ export default function Header(): JSX.Element {
   return (
     <Flex as="header">
       <Grid
-        templateColumns="200px auto 200px"
+        templateColumns="auto auto auto"
         height="100px"
         width="100%"
         maxWidth="1120px"
         margin="0 auto"
+        padding="0 1.25rem"
       >
         <GridItem alignSelf="center" justifySelf="left">
           {router.pathname !== '/' && (
