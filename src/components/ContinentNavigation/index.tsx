@@ -35,12 +35,15 @@ export default function ContinentNavigation({
   }, [continents, excludes]);
 
   return (
-    <Box width="100%" maxWidth="1120px" margin="0 auto" padding="20px 0">
+    <Box width="100%" maxWidth="1120px" margin="0 auto" padding="20px 1.25rem">
       <Heading as="h2" fontSize="2xl" marginBottom="2rem">
         Another continents
       </Heading>
-      <Grid templateColumns="repeat(5, 1fr)" gap={10}>
-        {continentList.map(continent => (
+      <Grid
+        templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(5, 1fr)' }}
+        gap={{ base: 2, md: 10 }}
+      >
+        {continentList.map((continent, index) => (
           <GridItem
             key={continent.id}
             backgroundImage={continent.banner.url}
@@ -51,6 +54,10 @@ export default function ContinentNavigation({
             position="relative"
             borderRadius="0.5rem"
             overflow="hidden"
+            colSpan={{
+              base: index + 1 === continents.length - 1 ? 2 : 1,
+              md: 1,
+            }}
           >
             <Link href={`/continent/${continent.slug}`} passHref>
               <chakra.a
@@ -67,6 +74,7 @@ export default function ContinentNavigation({
                 fontSize="large"
                 fontWeight="bold"
                 transition="all 0.2s ease"
+                textAlign="center"
                 _hover={{
                   backgroundColor: 'rgba(0, 0, 0, 0.6)',
                   color: 'orange.300',

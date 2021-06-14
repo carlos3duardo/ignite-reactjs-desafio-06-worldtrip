@@ -1,4 +1,4 @@
-import { Box, Heading } from '@chakra-ui/react';
+import { Box, Heading, useColorMode } from '@chakra-ui/react';
 import { GetStaticProps } from 'next';
 import Head from 'next/head';
 
@@ -41,6 +41,8 @@ export default function Home({
   interests,
   continents,
 }: HomeProps): JSX.Element {
+  const { colorMode } = useColorMode();
+
   return (
     <>
       <Head>
@@ -60,7 +62,7 @@ export default function Home({
             content: '""',
             width: '90px',
             height: '2px',
-            backgroundColor: '#000',
+            backgroundColor: colorMode === 'light' ? 'gray.800' : 'orange.300',
             top: '-50px',
             left: '50%',
             marginLeft: '-45px',

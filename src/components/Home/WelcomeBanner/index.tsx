@@ -27,6 +27,7 @@ export default function WelcomeBanner({
         justifyContent="space-between"
         textColor="gray.100"
         position="relative"
+        padding="0 1.25rem"
       >
         <Box maxW={600}>
           <Heading as="h1" fontSize="5xl">
@@ -35,6 +36,7 @@ export default function WelcomeBanner({
           <Text fontSize="2xl">{subtitle || 'Subtitle'}</Text>
         </Box>
         <chakra.figure
+          display={{ base: 'none', md: 'block' }}
           transform="rotate(3deg);"
           position="absolute"
           right="0"

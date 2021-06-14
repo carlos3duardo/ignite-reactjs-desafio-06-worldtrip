@@ -11,8 +11,6 @@ import { GetStaticPaths, GetStaticProps } from 'next';
 import Head from 'next/head';
 import ContinentNavigation from '../../components/ContinentNavigation';
 
-import Header from '../../components/Header';
-
 import { request, getAllContinents } from '../../services/datocms.js';
 
 interface ContinentProps {
@@ -85,7 +83,7 @@ export default function Home({
             margin="0 auto"
             display="flex"
             flexDirection="column-reverse"
-            padding="40px 0"
+            padding="40px 1.25rem"
             zIndex="3"
           >
             <Heading as="h2" fontSize="5xl" color="white">
@@ -99,18 +97,21 @@ export default function Home({
         width="100%"
         maxWidth="1120px"
         margin="0 auto"
-        padding="20px 0"
+        padding="20px 1.25rem"
         templateColumns="repeat(5, 1fr)"
         gap={4}
       >
-        <GridItem colSpan={3}>
+        <GridItem colSpan={{ base: 5, md: 3 }}>
           <Box
             dangerouslySetInnerHTML={{
               __html: continent?.description.replace(/\n/g, '<br/>'),
             }}
           />
         </GridItem>
-        <GridItem colSpan={2} paddingTop="3rem">
+        <GridItem
+          colSpan={{ base: 5, md: 2 }}
+          paddingTop={{ base: '1rem', md: '3rem' }}
+        >
           <Grid templateColumns="repeat(3, 1fr)" gap={6}>
             <GridItem>
               <Heading color="primary" textAlign="center">
@@ -148,8 +149,8 @@ export default function Home({
             maxWidth="1120px"
             margin="0 auto"
             padding="20px 0"
-            templateColumns="repeat(4, 1fr)"
-            gap={10}
+            templateColumns={{ base: 'repeat(2, 1fr)', md: 'repeat(4, 1fr)' }}
+            gap={{ base: 4, md: 10 }}
           >
             {cities?.map(city => (
               <GridItem
@@ -170,8 +171,8 @@ export default function Home({
                   />
                 </chakra.figure>
                 <Flex
-                  dir="row"
-                  align="top"
+                  direction={{ base: 'column-reverse', md: 'row' }}
+                  align={{ base: 'center', md: 'top' }}
                   justify="space-between"
                   padding="20px"
                 >
@@ -180,17 +181,27 @@ export default function Home({
                       fontSize="normal"
                       fontWeight="bold"
                       textTransform="lowercase"
+                      textAlign={{ base: 'center', md: 'left' }}
                     >
                       {city?.name}
                     </Text>
-                    <Text fontSize="small" fontWeight="bold" color="gray.500">
+                    <Text
+                      fontSize="small"
+                      fontWeight="bold"
+                      color="gray.500"
+                      textAlign={{ base: 'center', md: 'left' }}
+                    >
                       {city?.country.name}
                     </Text>
-                    <Text fontSize="small" color="gray.500">
+                    <Text
+                      fontSize="small"
+                      color="gray.500"
+                      textAlign={{ base: 'center', md: 'left' }}
+                    >
                       Arrivals: {city?.arrivals}M
                     </Text>
                   </Box>
-                  <Box>
+                  <Box marginBottom={{ base: '0.25rem', md: '0' }}>
                     <chakra.figure
                       width="30px"
                       height="30px"
